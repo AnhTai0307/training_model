@@ -1,0 +1,35 @@
+# Bộ phiên bản ĐÃ CHẠY ĐƯỢC (smoke test 1 epoch cả softmax / crf / lstm_crf) trên:
+#   Windows 11, Python 3.12.10, CPU (không GPU), Java 1.8.0_401 — ngày 2026-10-28.
+# requirements.txt gốc của repo KHÔNG cài được trên Python 3.12:
+#   "ERROR: Could not find a version that satisfies the requirement torch~=1.8.0
+#    (from versions: 2.2.0, ..., 2.14.1)"
+#
+# Cài (CPU):
+#   pip install torch==2.7.1 --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements_working.txt
+# Trên Colab: GIỮ torch có sẵn của Colab (bản CUDA), chỉ cài các dòng dưới (chưa kiểm chứng trên Colab).
+#
+# Lưu ý: torch >= 2.6 cần bản sửa weights_only=False trong repo (đã sửa, xem SETUP_REPORT.md);
+#        transformers 4.46.3 cần bản sửa _init_weights cho CRF/LSTM trong models/phobert.py (đã sửa).
+
+# torch==2.7.1          # cài riêng theo lệnh trên
+transformers==4.46.3
+tokenizers==0.20.3
+huggingface_hub==0.36.2
+sentencepiece==0.2.2
+pytorch-crf==0.7.2
+pandas==2.2.3
+numpy==2.2.6
+scikit-learn==1.5.2
+matplotlib==3.9.2
+tqdm==4.70.1
+prettytable==3.18.0
+tensorboardX==2.6.5
+jsonlines==4.0.0
+# tách từ: vncorenlp (predictor.py của repo, VnCoreNLP-1.1.1.jar) + py_vncorenlp (sinh dữ liệu, VnCoreNLP-1.2.jar)
+vncorenlp==1.0.3
+py_vncorenlp==0.1.4
+pyjnius==1.9.0
+# đánh giá mức thực thể
+seqeval==1.2.2
+# KHÔNG cài / chưa kiểm chứng: streamlit, st-annotated-text (chỉ dùng cho `main.py demo`), nltk, tensorboard

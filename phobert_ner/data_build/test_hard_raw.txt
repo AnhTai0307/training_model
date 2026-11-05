@@ -1,0 +1,114 @@
+# test_hard: viết tay RIÊNG, không template, không tăng cường. CẦN NGƯỜI DUYỆT TAY trước khi tin kết quả.
+# Gồm: không dấu, phủ định, câu lạ / cấu trúc khác train, một số thực thể NGOÀI từ điển (đánh dấu # OOV ở cuối nhóm).
+# ===== không dấu =====
+chao anh chi, em ten hoa, em biet [tieng nhat|SKILL] va co the lam [toi thu 3|TIME], nha em o [son tra|LOC]
+minh lam [phuc vu|SKILL] duoc, ranh [sau 7h toi|TIME] o [thanh khe|LOC]
+e o gan cau rong, quan [hai chau|LOC], ranh [ca chieu|TIME]
+toi co bang lai, [lai xe may|SKILL] va [lai o to|SKILL] duoc het
+ranh [t2 t4 t6|TIME], biet [excel|SKILL]
+minh hoc nau an nen [nau an|SKILL] kha ngon, o [hoa vang|LOC]
+cho minh xin viec [ban hang|SKILL] o [ngu hanh son|LOC] nha
+em lam duoc [tu 5h sang den 9h sang|TIME]
+toi dang ranh, khong co viec gi lam
+toi ranh [ca ngay|TIME] tru [chu nhat|TIME|neg]
+em biet [tieng anh|SKILL] voi [tieng han|SKILL], [toeic|SKILL] 600
+minh can viec [giao hang|SKILL] gan [lien chieu|LOC], ranh [sang som|TIME]
+nha minh o [cam le|LOC] nhung di [thanh khe|LOC] lam cung duoc
+em thich [chup anh|SKILL] lam, co may anh rieng
+toi muon lam [cham soc khach hang|SKILL] [ca dem|TIME]
+# ===== phủ định =====
+Em không đi làm [ca sáng|TIME|neg] được vì sáng em học ở trường.
+Tôi chẳng rành [tin học văn phòng|SKILL|neg] lắm đâu.
+Mình không còn ở [Thanh Khê|LOC|neg] nữa, giờ chuyển qua [Sơn Trà|LOC] rồi.
+Em không có xe nên không [giao hàng|SKILL|neg] được ạ.
+Tôi không phải người [Đà Nẵng|LOC|neg] nhưng đang ở trọ [Hải Châu|LOC].
+Mình không rảnh [cuối tuần|TIME|neg] đâu, chỉ rảnh [tối thứ 4|TIME] thôi.
+em k biet [pha che|SKILL|neg] nhung hoc nhanh
+Tôi không nói được [tiếng Hàn|SKILL|neg], chỉ biết [tiếng Anh|SKILL] một chút.
+Mình không muốn làm [ban đêm|TIME|neg] vì về khuya nguy hiểm.
+Em chưa bao giờ [phục vụ|SKILL|neg] nhưng em sẽ cố gắng.
+Tôi đã nghỉ làm [shipper|SKILL|neg] rồi, giờ muốn làm [thu ngân|SKILL].
+Không phải [buổi trưa|TIME|neg] nha, [buổi chiều|TIME] mình mới rảnh.
+mik ko xài đc [photoshop|SKILL|neg] nhưng [canva|SKILL] thì ok
+Tôi không thể làm ở [Hòa Vang|LOC|neg] vì quá xa nhà.
+Mình chưa thi [IELTS|SKILL|neg] bao giờ.
+Em không làm [thứ 7|TIME|neg], mấy ngày khác thì được.
+toi khong co kinh nghiem gi het
+Mình không ngại làm [tối muộn|TIME] đâu.
+Tôi không giỏi [lập trình|SKILL|neg], tôi giỏi [thiết kế|SKILL] hơn.
+Em không biết [bơi|SKILL|neg] nên không làm cứu hộ được.
+# ===== câu lạ / cấu trúc khác =====
+[Tiếng Anh|SKILL]: tốt. Thời gian: [tối|TIME]. Khu vực: [Hải Châu|LOC].
+Kỹ năng - [pha chế|SKILL], [phục vụ|SKILL]; Giờ - [18h-22h|TIME]; Nơi ở - [Liên Chiểu|LOC]
+[Hải Châu|LOC] ạ.
+[Tối|TIME].
+Ai cần người [dạy kèm|SKILL] [tiếng Nhật|SKILL] thì liên hệ mình nha.
+Mẹ em bảo em đi làm thêm [cuối tuần|TIME] cho đỡ buồn.
+Hồi trước em làm [phục vụ|SKILL] ở [Sơn Trà|LOC], giờ muốn đổi sang [pha chế|SKILL].
+Anh trai em ở [Thanh Khê|LOC], còn em ở [Cẩm Lệ|LOC].
+Nếu làm [buổi tối|TIME] thì em ok, còn [buổi sáng|TIME|neg] thì không.
+Bạn mình giỏi [tiếng Trung|SKILL] lắm, còn mình thì giỏi [Excel|SKILL].
+Từ [Hoà Vang|LOC] vào [Hải Châu|LOC] mất 30 phút, em đi được.
+Mình rảnh [từ 6 giờ chiều đến 10 giờ tối|TIME].
+Lịch rảnh: [T2|TIME], [T4|TIME] [sau 17h|TIME]; [CN|TIME] [cả ngày|TIME].
+Em học [lập trình|SKILL] ở trường nhưng thích [bán hàng|SKILL] hơn.
+Có việc gì [sáng sớm|TIME] không ạ, kiểu [giao báo|SKILL] hay [bán bánh mì|SKILL] cũng được.
+Mình mới chuyển ra [Đà Nẵng|LOC], chưa rành đường.
+Hỏi chút: [Ngũ Hành Sơn|LOC] có việc [phục vụ|SKILL] [ca trưa|TIME] không?
+Em 17 tuổi có làm được [phục vụ|SKILL] không ạ?
+[IELTS|SKILL] 8.0, cần job [gia sư|SKILL] lương cao.
+Tối nay em rảnh, mai thì không.
+Ở [Sơn Trà|LOC] có ai cần [trông trẻ|SKILL] không?
+Mình [lái xe máy|SKILL] 5 năm chưa bị phạt lần nào.
+em la nguoi [son tra|LOC] chinh goc
+Mình thích làm với người, ví dụ [tư vấn|SKILL] hay [chăm sóc khách hàng|SKILL].
+Đi làm [8h-12h|TIME] rồi về nấu cơm cho con.
+# ===== OOV: thực thể không có trong từ điển (đo khả năng tổng quát hoá) =====
+Em biết [tiếng Đức|SKILL] và [tiếng Nga|SKILL].
+Tôi biết [sửa điện thoại|SKILL], ở [Liên Chiểu|LOC].
+Mình biết [may vá|SKILL] và [thêu|SKILL], rảnh [ca gãy|TIME].
+Em chơi [violin|SKILL] được, rảnh [tối thứ 6|TIME].
+Tôi có thể làm [giờ hành chính|TIME] ở [Hải Châu|LOC].
+Mình biết [Figma|SKILL] với [Illustrator|SKILL], làm online [sau 20h|TIME].
+Em có thể [cắt tóc|SKILL] và [trang điểm|SKILL] cho cô dâu [cuối tuần|TIME].
+Tôi giỏi [JavaScript|SKILL] và [SQL|SKILL].
+Mình rảnh [từ 15h30 đến 19h|TIME] ở [Cẩm Lệ|LOC].
+em biet [sua xe may|SKILL], o [hoa vang|LOC]
+Tôi biết [làm nail|SKILL], ở [Thanh Khê|LOC].
+Mình rảnh [rạng sáng|TIME], có thể [bán hàng|SKILL] ở chợ.
+Em biết [dịch thuật|SKILL] [tiếng Anh|SKILL].
+Tôi có thể [chạy Grab|SKILL] [buổi tối|TIME].
+Mình biết [Premiere|SKILL] và [CapCut|SKILL].
+Em biết [kế toán|SKILL] và [MISA|SKILL], rảnh [ngày thường|TIME].
+Tôi làm [bảo vệ|SKILL] ca [đêm|TIME] được.
+Mình rảnh [chiều thứ 2, 4, 6|TIME].
+e bít [múa|SKILL] vs [nhảy hiện đại|SKILL] nha
+Em có thể [phát tờ rơi|SKILL] [cuối tuần|TIME] ở [Hải Châu|LOC].
+# ===== hỗn hợp có dấu / dài =====
+Dạ em chào anh chị, em tên Vy, hiện em đang học năm hai Đại học Ngoại ngữ, em có [IELTS|SKILL] 7.0 và biết thêm [tiếng Hàn|SKILL] cơ bản, em có thể làm [từ 14h đến 18h|TIME] [thứ 2 đến thứ 6|TIME] và [cả ngày|TIME] [thứ 7|TIME], nhà em ở [Ngũ Hành Sơn|LOC] gần trường ạ.
+Mình không rảnh [buổi sáng|TIME|neg], không biết [tiếng Anh|SKILL|neg], không có xe, nhưng chịu khó lắm.
+Tôi thất nghiệp, cần gấp việc [bốc xếp|SKILL] hay [giao hàng|SKILL] gì cũng được, ở [Liên Chiểu|LOC], [sáng|TIME] [chiều|TIME] [tối|TIME] đều rảnh.
+Con muốn làm thêm [ca tối|TIME] ở [Hải Châu|LOC] để phụ ba mẹ.
+toi gioi [tieng anh|SKILL], [tieng phap|SKILL], [tieng trung|SKILL], ranh [sau 18h|TIME], o [hai chau|LOC], [son tra|LOC]
+Mình là sinh viên năm 3, có thể [dạy kèm|SKILL] [Toán|SKILL] và [Lý|SKILL] [buổi tối|TIME].
+Em học xong lớp [pha chế|SKILL] rồi, rảnh [sau 5h chiều|TIME].
+Hiện tại mình làm full-time nên chỉ rảnh [tối|TIME] và [cuối tuần|TIME] thôi, ở [Cẩm Lệ|LOC].
+Em ở [Thanh Khê|LOC], gần biển Mỹ Khê.
+Mình không ở [Ngũ Hành Sơn|LOC|neg] mà ở [Hải Châu|LOC], rảnh [tối|TIME], không rảnh [trưa|TIME|neg].
+# ===== bổ sung =====
+minh co the lam [ca toi|TIME] o [lien chieu|LOC] hoac [cam le|LOC]
+em biet [word|SKILL], [excel|SKILL], ranh [buoi trua|TIME]
+toi khong biet [tieng trung|SKILL|neg] nhung biet [tieng han|SKILL]
+khong ranh [toi thu 7|TIME|neg] dau nha
+Mình chỉ rảnh đúng [chiều chủ nhật|TIME] thôi.
+Em ở [Liên Chiểu|LOC], đối diện trường, có thể đi bộ đi làm.
+Tôi không chắc mình rảnh lúc nào nữa.
+[Thu ngân|SKILL] hay [phục vụ|SKILL] gì em cũng làm được hết ạ.
+Mình hay [chụp ảnh|SKILL] cho bạn bè, muốn kiếm thêm từ việc này.
+Ba em bảo con gái không nên làm [ban đêm|TIME|neg].
+Em nhắn hỏi giùm bạn em, bạn ấy ở [Sơn Trà|LOC] và biết [pha chế|SKILL].
+Tôi đã từng là [gia sư|SKILL] [tiếng Anh|SKILL] cho ba học sinh.
+mik rảnh [tối|TIME] nhưng [t7|TIME|neg] thì bận nha
+Có việc nào làm [từ 9h đến 11h|TIME] sáng ở [Hải Châu|LOC] không ạ?
+Em không rành đường [Hòa Vang|LOC|neg] lắm, chỉ quen khu [Cẩm Lệ|LOC].
+Tôi sẽ đi làm [ngay cuối tuần này|TIME] nếu được nhận.

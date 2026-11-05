@@ -1,0 +1,158 @@
+diff --git a/vphoberttagger/arguments.py b/vphoberttagger/arguments.py
+index ffc0e9d..11674f4 100644
+--- a/vphoberttagger/arguments.py
++++ b/vphoberttagger/arguments.py
+@@ -37,7 +37,8 @@ def get_train_argument():
+     parser.add_argument('type', choices=['train', 'test', 'predict', 'demo'],
+                         help='What process to be run')
+     parser.add_argument("--task", default='vlsp2016', type=str, choices=['vlsp2016', 'vlsp2018_l1', 'vlsp2018_l2',
+-                                                                         'vlsp2018_join', 'bds2022', 'covid19'],
++                                                                         'vlsp2018_join', 'bds2022', 'covid19',
++                                                                         'jobner'],
+                         help="Training task selected in the list: [`vlsp2016`, `vlsp2018_l1`, `vlsp2018_l2`, "
+                              "`vlsp2018_join`].")
+     parser.add_argument("--data_dir", default='datasets/samples', type=str,
+diff --git a/vphoberttagger/constant.py b/vphoberttagger/constant.py
+index 1479a6a..33c28bb 100644
+--- a/vphoberttagger/constant.py
++++ b/vphoberttagger/constant.py
+@@ -22,6 +22,8 @@ LABEL2ID_BDS = ["O", "B-transaction", "I-transaction", "B-real_estate_type", "I-
+                 "B-project_name", "I-project_name", "B-front_length", "I-front_length", "B-road_width", "I-road_width",
+                 "B-surrounding", "I-surrounding", "B-legal", "I-legal", "B-house_number", "I-house_number"]
+ 
++LABEL2ID_JOBNER = ['O', 'B-SKILL', 'I-SKILL', 'B-TIME', 'I-TIME', 'B-LOC', 'I-LOC']
++
+ PROCESSOR_MAPPING = {
+     'vinai/phobert-base': convert_word_segment_examples_features,
+     'FPTAI/vibert-base-cased': convert_syllable_examples_features,
+@@ -72,5 +74,10 @@ LABEL_MAPPING = {
+         'label2id': LABEL2ID_BDS,
+         'id2label': {idx: label for idx, label in enumerate(LABEL2ID_BDS)},
+         'header': 'jsonl'
++    },
++    'jobner': {
++        'label2id': LABEL2ID_JOBNER,
++        'id2label': {idx: label for idx, label in enumerate(LABEL2ID_JOBNER)},
++        'header': ['token', 'pos', 'chunk', 'ner']
+     }
+ }
+\ No newline at end of file
+diff --git a/vphoberttagger/dataset.py b/vphoberttagger/dataset.py
+index 5f4d25c..6a44e15 100644
+--- a/vphoberttagger/dataset.py
++++ b/vphoberttagger/dataset.py
+@@ -41,7 +41,7 @@ def build_dataset(data_dir: Union[str, os.PathLike],
+         features = PROCESSOR_MAPPING[process_key](dfile_path, tokenizer, label2id, header, max_seq_len, use_crf=use_crf)
+         torch.save(features, cached_path)
+     else:
+-        features = torch.load(cached_path)
++        features = torch.load(cached_path, weights_only=False)
+     return NerDataset(features=features, device=device)
+ 
+ 
+diff --git a/vphoberttagger/models/phobert.py b/vphoberttagger/models/phobert.py
+index d4d74b7..c5939c7 100644
+--- a/vphoberttagger/models/phobert.py
++++ b/vphoberttagger/models/phobert.py
+@@ -41,6 +41,13 @@ class PhoBertCrf(RobertaForTokenClassification):
+         self.num_labels = config.num_labels
+         self.crf = CRF(config.num_labels, batch_first=True)
+         self.init_weights()
++
++    def _init_weights(self, module):
++        # transformers mới tắt torch.nn.init khi dựng model => CRF không được khởi tạo; khởi tạo lại ở đây
++        super()._init_weights(module)
++        if isinstance(module, CRF):
++            module.reset_parameters()
++
+     def forward(self, input_ids, token_type_ids=None, attention_mask=None, labels=None, valid_ids=None,
+                 label_masks=None):
+         seq_outputs = self.roberta(input_ids=input_ids,
+@@ -73,6 +80,12 @@ class PhoBertLstmCrf(RobertaForTokenClassification):
+                             bidirectional=True)
+         self.crf = CRF(config.num_labels, batch_first=True)
+ 
++    def _init_weights(self, module):
++        # transformers mới tắt torch.nn.init khi dựng model => LSTM/CRF không được khởi tạo; khởi tạo lại ở đây
++        super()._init_weights(module)
++        if isinstance(module, (CRF, nn.LSTM)):
++            module.reset_parameters()
++
+     @staticmethod
+     def sort_batch(src_tensor, lengths):
+         """
+diff --git a/vphoberttagger/predictor.py b/vphoberttagger/predictor.py
+index a09811b..1620077 100644
+--- a/vphoberttagger/predictor.py
++++ b/vphoberttagger/predictor.py
+@@ -25,9 +25,9 @@ class ViTagger(object):
+     @staticmethod
+     def load_model(model_path: Union[str or os.PathLike],  device='cpu'):
+         if device == 'cpu':
+-            checkpoint_data = torch.load(model_path, map_location='cpu')
++            checkpoint_data = torch.load(model_path, map_location='cpu', weights_only=False)
+         else:
+-            checkpoint_data = torch.load(model_path)
++            checkpoint_data = torch.load(model_path, weights_only=False)
+         args = checkpoint_data["args"]
+         max_seq_len = args.max_seq_length
+         use_crf = True if 'crf' in args.model_arch else False
+@@ -89,7 +89,8 @@ class ViTagger(object):
+             raise f"{tokens} have mark == 0 at index 0!"
+         item = {key: torch.as_tensor([val]).to(self.device, dtype=torch.long) for key, val in encoding.items()}
+         item['valid_ids'] = torch.as_tensor([valid_ids]).to(self.device, dtype=torch.long)
+-        item['label_masks'] = torch.as_tensor([valid_ids]).to(self.device, dtype=torch.long)
++        # giống processor.py lúc train: CRF dùng label_marks (0/1 theo số từ), softmax dùng valid_ids
++        item['label_masks'] = torch.as_tensor([label_marks if self.use_crf else valid_ids]).to(self.device, dtype=torch.long)
+         return item
+ 
+     def extract_entity_doc(self, in_raw: str):
+diff --git a/vphoberttagger/trainer.py b/vphoberttagger/trainer.py
+index e8c2017..846fc5b 100644
+--- a/vphoberttagger/trainer.py
++++ b/vphoberttagger/trainer.py
+@@ -111,9 +111,9 @@ def test():
+     device = 'cuda' if not args.no_cuda and torch.cuda.is_available() else 'cpu'
+     assert os.path.exists(args.model_path), f'Checkpoint file `{args.model_path}` not exists!'
+     if device == 'cpu':
+-        checkpoint_data = torch.load(args.model_path, map_location='cpu')
++        checkpoint_data = torch.load(args.model_path, map_location='cpu', weights_only=False)
+     else:
+-        checkpoint_data = torch.load(args.model_path)
++        checkpoint_data = torch.load(args.model_path, weights_only=False)
+     configs = checkpoint_data['args']
+     use_crf = True if 'crf' in args.model_arch else False
+     tokenizer = AutoTokenizer.from_pretrained(configs.model_name_or_path)
+@@ -191,7 +191,7 @@ def train():
+                                  tokenizer,
+                                  label2id=args.label2id,
+                                  header=LABEL_MAPPING[args.task]['header'],
+-                                 dtype='test',
++                                 dtype='dev',
+                                  max_seq_len=args.max_seq_length,
+                                  device=device,
+                                  use_crf=use_crf,
+@@ -209,9 +209,9 @@ def train():
+     if args.load_weights is not None:
+         LOGGER.info(f'Load pretrained model weights from "{args.load_weights}"')
+         if device == 'cpu':
+-            checkpoint_data = torch.load(args.load_weights, map_location='cpu')
++            checkpoint_data = torch.load(args.load_weights, map_location='cpu', weights_only=False)
+         else:
+-            checkpoint_data = torch.load(args.load_weights)
++            checkpoint_data = torch.load(args.load_weights, weights_only=False)
+         model.load_state_dict(checkpoint_data['model'])
+         checkpoint_data = None
+ 
+@@ -301,9 +301,9 @@ def train():
+                                      overwrite_data=args.overwrite_data)
+         test_iterator = DataLoader(test_dataset, batch_size=args.eval_batch_size, num_workers=args.num_workers)
+         if device == 'cpu':
+-            checkpoint_data = torch.load(args.output_dir + f"/best_model.pt", map_location='cpu')
++            checkpoint_data = torch.load(args.output_dir + f"/best_model.pt", map_location='cpu', weights_only=False)
+         else:
+-            checkpoint_data = torch.load(args.output_dir + f"/best_model.pt")
++            checkpoint_data = torch.load(args.output_dir + f"/best_model.pt", weights_only=False)
+         model.load_state_dict(checkpoint_data['model'])
+         validate(model=model,
+                  task=args.task,

@@ -1,0 +1,23 @@
+# Virtualenv
+phobert_ner/.venv/
+
+# Tải lại được qua script/notebook, không cần lên git
+phobert_ner/vncorenlp/
+
+# Dữ liệu mẫu gốc của tác giả cho task khác (vlsp2016/2018, covid19...) — project này dùng data_dir/ riêng
+phobert_ner/VPhoBertTagger/datasets/
+
+# Model đã train (nặng, vài trăm MB/file) — lưu trên Google Drive chung, không lên git
+phobert_ner/outputs/
+
+# Log chạy local
+phobert_ner/logs/
+
+# Zip đóng gói để gửi team — tạo lại được từ code, không cần versioned
+phobert_ner/*.zip
+
+# File tải dở
+*.crdownload
+
+__pycache__/
+*.pyc
