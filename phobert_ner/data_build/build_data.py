@@ -2,6 +2,7 @@
 
 Chạy:  python data_build/build_data.py
 """
+import glob
 import json
 import os
 import random
@@ -236,7 +237,13 @@ def main():
     os.makedirs(DATA_DIR, exist_ok=True)
     seg = Segmenter()
 
-    hw_rows = load_markup_file(os.path.join(BUILD_DIR, "handwritten.txt"))
+    # Gộp handwritten.txt (gốc) + mọi file handwritten_<ten>.txt (mỗi người viết riêng 1 file,
+    # tránh đụng chung handwritten.txt -> không conflict khi push git). Thứ tự theo tên file.
+    hw_files = [os.path.join(BUILD_DIR, "handwritten.txt")] + \
+        sorted(glob.glob(os.path.join(BUILD_DIR, "handwritten_*.txt")))
+    hw_rows = []
+    for fp in hw_files:
+        hw_rows.extend(load_markup_file(fp))
     hw, hw_fail = process(build_handwritten(hw_rows), seg)
     n_tpl_target = int(len(hw) * TEMPLATE_RATIO_MAX / (1 - TEMPLATE_RATIO_MAX))
     tpl, tpl_fail = process(build_templates(n_tpl_target), seg)
