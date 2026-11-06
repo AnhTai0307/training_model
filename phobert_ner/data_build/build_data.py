@@ -119,7 +119,7 @@ def build_handwritten(rows):
 
 
 # ---------------------------------------------------------------- template
-SLOT = re.compile(r"\{(I|P|SKILL|TIME|LOC)(!neg)?\}")
+SLOT = re.compile(r"\{(I|P|SKILL|JOB|TIME|LOC)(!neg)?\}")
 
 
 def fill_pattern(pattern):
@@ -144,7 +144,8 @@ def fill_pattern(pattern):
     if deacc:
         m = strip_accents(m)
         if rng.random() < 0.6:  # kiểu gõ không dấu thường kèm viết thường hết
-            m = m.lower().replace("|skill", "|SKILL").replace("|time", "|TIME").replace("|loc", "|LOC")
+            m = (m.lower().replace("|skill", "|SKILL").replace("|job", "|JOB")
+                 .replace("|time", "|TIME").replace("|loc", "|LOC"))
     return m
 
 

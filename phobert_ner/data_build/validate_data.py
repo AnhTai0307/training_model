@@ -122,10 +122,10 @@ def main():
                 all_errors.append(f"{meta_path}: {len(meta)} dòng metadata != {len(sents)} câu")
             n_neg = sum(m["negated"] for m in meta)
         n = max(1, len(sents))
-        rows.append((sp, len(sents), sum(len(s) for s in sents), ent_c["SKILL"], ent_c["TIME"], ent_c["LOC"],
+        rows.append((sp, len(sents), sum(len(s) for s in sents), ent_c["SKILL"], ent_c["JOB"], ent_c["TIME"], ent_c["LOC"],
                      f"{n_noent / n:.1%}", f"{n_noacc / n:.1%}", f"{n_neg / n:.1%}", len(errs)))
 
-    hdr = ("tập", "số câu", "số token", "SKILL", "TIME", "LOC", "không thực thể", "không dấu", "có phủ định", "lỗi")
+    hdr = ("tập", "số câu", "số token", "SKILL", "JOB", "TIME", "LOC", "không thực thể", "không dấu", "có phủ định", "lỗi")
     w = [max(len(str(r[i])) for r in rows + [hdr]) for i in range(len(hdr))]
     print(" | ".join(str(h).ljust(w[i]) for i, h in enumerate(hdr)))
     print("-+-".join("-" * x for x in w))

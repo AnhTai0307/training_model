@@ -73,26 +73,10 @@ SKILL = {
     "kế toán": ["kế toán"],
     "marketing": ["marketing", "digital marketing"],
     "viết content": ["viết content", "viết bài", "content"],
-    # dịch vụ / bán lẻ
-    "bán hàng": ["bán hàng", "bán hàng online", "sale"],
-    "tư vấn": ["tư vấn", "tư vấn bán hàng"],
-    "chăm sóc khách hàng": ["chăm sóc khách hàng", "CSKH", "cskh"],
-    "thu ngân": ["thu ngân"],
-    "pha chế": ["pha chế", "pha cà phê", "pha trà sữa", "barista"],
-    "phục vụ": ["phục vụ", "phục vụ bàn", "chạy bàn"],
-    "nấu ăn": ["nấu ăn", "nấu bếp", "phụ bếp"],
-    "làm bánh": ["làm bánh"],
-    "livestream": ["livestream", "live stream"],
-    "MC": ["MC", "dẫn chương trình"],
-    # giáo dục / chăm sóc
-    "gia sư": ["gia sư", "dạy kèm", "kèm học"],
-    "trông trẻ": ["trông trẻ", "giữ trẻ"],
-    # vận chuyển / lao động
-    "giao hàng": ["giao hàng", "ship hàng", "shipper"],
+    # lao động / khả năng thể chất (khả năng có, không phải tên nghề)
+    "nấu ăn": ["nấu ăn", "nấu bếp"],
     "lái xe máy": ["lái xe máy", "chạy xe máy"],
     "lái ô tô": ["lái ô tô", "lái xe ô tô"],
-    "dọn dẹp": ["dọn dẹp", "dọn phòng", "vệ sinh"],
-    "bốc xếp": ["bốc xếp", "khuân vác"],
     # kỹ năng mềm / nghệ thuật
     "giao tiếp": ["giao tiếp", "kỹ năng giao tiếp"],
     "đàn guitar": ["đàn guitar", "guitar"],
@@ -111,7 +95,37 @@ for _k in SKILL:
     elif _k in ("giao tiếp", "đàn guitar", "piano", "hát", "bơi"):
         SKILL_GROUP[_k] = "soft"
     else:
-        SKILL_GROUP[_k] = "service"
+        SKILL_GROUP[_k] = "labor"
 
-LEXICON = {"SKILL": SKILL, "TIME": TIME, "LOC": LOC}
-GROUPS = {"SKILL": SKILL_GROUP, "TIME": TIME_GROUP, "LOC": LOC_GROUP}
+# JOB: tên công việc / vị trí muốn ứng tuyển (khác SKILL = kỹ năng/khả năng đã có)
+JOB = {
+    # dịch vụ / bán lẻ
+    "bán hàng": ["bán hàng", "bán hàng online", "sale", "nhân viên bán hàng"],
+    "tư vấn": ["tư vấn", "tư vấn bán hàng"],
+    "chăm sóc khách hàng": ["chăm sóc khách hàng", "CSKH", "cskh"],
+    "thu ngân": ["thu ngân"],
+    "pha chế": ["pha chế", "pha cà phê", "pha trà sữa", "barista"],
+    "phục vụ": ["phục vụ", "phục vụ bàn", "chạy bàn"],
+    "phụ bếp": ["phụ bếp"],
+    "làm bánh": ["làm bánh"],
+    "livestream": ["livestream", "live stream"],
+    "MC": ["MC", "dẫn chương trình"],
+    # giáo dục / chăm sóc
+    "gia sư": ["gia sư", "dạy kèm", "kèm học"],
+    "trông trẻ": ["trông trẻ", "giữ trẻ"],
+    # vận chuyển / lao động
+    "giao hàng": ["giao hàng", "ship hàng", "shipper"],
+    "dọn dẹp": ["dọn dẹp", "dọn phòng", "vệ sinh"],
+    "bốc xếp": ["bốc xếp", "khuân vác"],
+}
+JOB_GROUP = {}
+for _k in JOB:
+    if _k in ("gia sư", "trông trẻ"):
+        JOB_GROUP[_k] = "edu_care"
+    elif _k in ("giao hàng", "dọn dẹp", "bốc xếp"):
+        JOB_GROUP[_k] = "labor"
+    else:
+        JOB_GROUP[_k] = "service"
+
+LEXICON = {"SKILL": SKILL, "JOB": JOB, "TIME": TIME, "LOC": LOC}
+GROUPS = {"SKILL": SKILL_GROUP, "JOB": JOB_GROUP, "TIME": TIME_GROUP, "LOC": LOC_GROUP}

@@ -22,7 +22,7 @@ LABEL2ID_BDS = ["O", "B-transaction", "I-transaction", "B-real_estate_type", "I-
                 "B-project_name", "I-project_name", "B-front_length", "I-front_length", "B-road_width", "I-road_width",
                 "B-surrounding", "I-surrounding", "B-legal", "I-legal", "B-house_number", "I-house_number"]
 
-LABEL2ID_JOBNER = ['O', 'B-SKILL', 'I-SKILL', 'B-TIME', 'I-TIME', 'B-LOC', 'I-LOC']
+LABEL2ID_JOBNER = ['O', 'B-SKILL', 'I-SKILL', 'B-JOB', 'I-JOB', 'B-TIME', 'I-TIME', 'B-LOC', 'I-LOC']
 
 PROCESSOR_MAPPING = {
     'vinai/phobert-base': convert_word_segment_examples_features,

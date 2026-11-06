@@ -15,8 +15,8 @@ VNCORENLP_DIR = os.path.join(ROOT, "vncorenlp")
 DATA_DIR = os.path.join(ROOT, "data_dir")
 BUILD_DIR = os.path.join(ROOT, "data_build")
 
-ENTITY_TYPES = ("SKILL", "TIME", "LOC")
-VALID_LABELS = ["O", "B-SKILL", "I-SKILL", "B-TIME", "I-TIME", "B-LOC", "I-LOC"]
+ENTITY_TYPES = ("SKILL", "JOB", "TIME", "LOC")
+VALID_LABELS = ["O", "B-SKILL", "I-SKILL", "B-JOB", "I-JOB", "B-TIME", "I-TIME", "B-LOC", "I-LOC"]
 
 # Dùng ĐÚNG hàm normalize_text của repo (predictor.py gọi hàm này lúc suy luận),
 # để dữ liệu train và đầu vào lúc predict cùng một quy ước dấu.
@@ -51,7 +51,7 @@ def has_accent(text: str) -> bool:
     return strip_accents(text) != unicodedata.normalize("NFC", text)
 
 
-_MARK = re.compile(r"\[([^\[\]|]+)\|(SKILL|TIME|LOC)(\|neg)?\]")
+_MARK = re.compile(r"\[([^\[\]|]+)\|(SKILL|JOB|TIME|LOC)(\|neg)?\]")
 
 
 def parse_markup(line: str):
